@@ -1,4 +1,4 @@
-package ru.cubelife.chat;
+package ru.dark32.chat;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,45 +21,45 @@ public class ChatListener implements Listener {
             return;
         }
 
-        Player p = event.getPlayer();
+        Player player = event.getPlayer();
 
-        ChatMode cm = ruChat.modes.get(p);
-        boolean g = event.getMessage().startsWith("!") && event.getMessage().length() > 1;
-        boolean s = event.getMessage().startsWith("#") && event.getMessage().length() > 1;
-        if (s) {
+        ChatMode chatMode = ruChat.modes.get(player);
+        boolean isGlobal = event.getMessage().startsWith("!") && event.getMessage().length() > 1;
+        boolean isSale = event.getMessage().startsWith("#") && event.getMessage().length() > 1;
+        if (isSale) {
             event.setMessage(event.getMessage().substring(1));
-            Utils.saleMessage(p, event.getMessage());
+            Utils.saleMessage(player, event.getMessage());
             event.getRecipients().clear();
             event.setFormat("%1$s [S]: %2$s");
             return;
         }
-        if (g) {
+        if (isGlobal) {
             event.setMessage(event.getMessage().substring(1));
-            Utils.globalMessage(p, event.getMessage());
+            Utils.globalMessage(player, event.getMessage());
             event.getRecipients().clear();
             event.setFormat("%1$s [G]: %2$s");
             return;
         }
-        if (cm == ChatMode.GLOBAL) {
-            Utils.globalMessage(p, event.getMessage());
+        if (chatMode == ChatMode.GLOBAL) {
+            Utils.globalMessage(player, event.getMessage());
             event.getRecipients().clear();
             event.setFormat("%1$s [G]: %2$s");
             return;
         }
-        if (cm == ChatMode.PRIVATE) {
-            Utils.privateMessage(p, event.getMessage());
+        if (chatMode == ChatMode.PRIVATE) {
+            Utils.privateMessage(player, event.getMessage());
             event.getRecipients().clear();
             event.setFormat("%1$s [P]: %2$s");
             return;
         }
-        if (cm == ChatMode.SALE) {
-            Utils.saleMessage(p, event.getMessage());
+        if (chatMode == ChatMode.SALE) {
+            Utils.saleMessage(player, event.getMessage());
             event.getRecipients().clear();
             event.setFormat("%1$s [S]: %2$s");
             return;
         }
-        if (cm == ChatMode.HELP) {
-            Utils.helpMessage(p, event.getMessage());
+        if (chatMode == ChatMode.HELP) {
+            Utils.helpMessage(player, event.getMessage());
             event.getRecipients().clear();
             event.setFormat("%1$s [H]: %2$s");
             return;

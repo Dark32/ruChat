@@ -1,4 +1,4 @@
-package ru.cubelife.chat;
+package ru.dark32.chat;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,40 +23,30 @@ public class ruChat extends JavaPlugin {
     /** Конфигурационный файл */
     public static FileConfiguration cfg;
     /** Файл конфига */
-    private File f;
+    private File file;
     /** Логгер */
     private Logger log;
     /** Плагин-менеджер */
-    private PluginManager pl;
+    private PluginManager plugin;
 
     public void onEnable() {
-        this.f = new File(getDataFolder(), "config.yml");
-        ruChat.cfg = YamlConfiguration.loadConfiguration(f);
+        this.file = new File(getDataFolder(), "config.yml");
+        ruChat.cfg = YamlConfiguration.loadConfiguration(file);
         this.loadCfg();
-
         ruChat.modes = new HashMap<Player, ChatMode>();
-
         this.log = Logger.getLogger("Minecraft");
-
-        this.pl = getServer().getPluginManager();
-
+        this.plugin = getServer().getPluginManager();
         ruChat.usePex = false;
-        if (pl.getPlugin("PermissionsEx") != null) {
+        if (plugin.getPlugin("PermissionsEx") != null) {
             ruChat.usePex = true;
         }
-
-        this.pl.registerEvents(new ChatListener(), this);
+        this.plugin.registerEvents(new ChatListener(), this);
         
-
         List<PluginCommand> cmds = new ArrayList<PluginCommand>();
 
-        cmds.add(getCommand("global"));
         cmds.add(getCommand("g"));
-        cmds.add(getCommand("private"));
         cmds.add(getCommand("p"));
-        cmds.add(getCommand("sale"));
         cmds.add(getCommand("s"));
-        cmds.add(getCommand("help"));
         cmds.add(getCommand("h"));
         cmds.add(getCommand("chat"));
 
@@ -84,7 +74,7 @@ public class ruChat extends JavaPlugin {
         ruChat.cfg.set("sale-chat-format", ruChat.cfg.getString("sale-chat-format", "&e[&5SALE&e] &f$prefix$player$suffix: &6$msg"));
         ruChat.cfg.set("help-chat-format", ruChat.cfg.getString("help-chat-format", "&7[HELP] &f$prefix$player$suffix: &o$msg"));
         try {
-            ruChat.cfg.save(f);
+            ruChat.cfg.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }

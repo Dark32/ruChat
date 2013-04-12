@@ -1,4 +1,4 @@
-package ru.cubelife.chat;
+package ru.dark32.chat;
 
 public enum ChatMode {
 	GLOBAL,
